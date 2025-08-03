@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api:
-    image: nanqin1994/secret-manager:1.0.0
+    image: nanqin1994/secret-manager:1.0.1
     environment:
       MASTER_KEY: ${MASTER_KEY:-}
       MONGO_URI: mongodb://mongodb:27017/vault
