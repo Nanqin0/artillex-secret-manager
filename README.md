@@ -124,10 +124,10 @@ curl http://localhost:8000/docs
 **Create a secret:**
 
 ```bash
-SECRET=$(echo -n "my_secret" | base64)
+echo -n "password123" | base64
 curl -X POST http://localhost:8000/vault/secret/create/ \
   -H "Content-Type: application/json" \
-  -d "{\"secret\":\"$SECRET\"}"
+  -d '{"secret":"cGFzc3dvcmQxMjM="}' #password123
 ```
 
 **Fetch a secret:**
@@ -135,7 +135,9 @@ curl -X POST http://localhost:8000/vault/secret/create/ \
 ```bash
 curl -X POST http://localhost:8000/vault/secret/fetch \
   -H "Content-Type: application/json" \
-  -d "{\"secret_id\":\"<YOUR_SECRET_ID>\"}"
+  -d '{"secret_id": "<secret_id>"}'
+
+echo "cGFzc3dvcmQxMjM=" | base64 -d
 ```
 
 ---
