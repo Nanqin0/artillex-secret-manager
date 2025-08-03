@@ -83,7 +83,7 @@ Update `MASTER_KEY`:
 
 ```bash
 # Generate a 32-byte random base64 key
-python3 -c "import base64,secrets; print(base64.b64encode(secrets.token_bytes(32)).decode())"
+sed -i "s/^MASTER_KEY=.*/MASTER_KEY=$(python3 -c 'import secrets, base64; print(base64.b64encode(secrets.token_bytes(32)).decode())')/" .env
 ```
 
 ### 3. **Build Application Image**
