@@ -70,7 +70,7 @@ secret-manager/
 
 ```bash
 git clone https://github.com/Nanqin0/artillex-secret-manager.git
-cd secret_manager
+cd artillex-secret-manager
 ```
 
 ### 2. **Configure Environment**
