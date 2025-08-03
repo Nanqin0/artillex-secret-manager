@@ -82,12 +82,14 @@ cp .env.example .env
 Update `MASTER_KEY`:
 
 ```bash
+# Generate a 32-byte random base64 key
 python3 -c "import base64,secrets; print(base64.b64encode(secrets.token_bytes(32)).decode())"
 ```
 
 ### 3. **Build Application Image**
 
 ```bash
+# Build the Secret Manager image
 docker build -t secret-manager:latest .
 ```
 
@@ -100,14 +102,20 @@ docker swarm init
 ### 5. **Deploy to Swarm**
 
 ```bash
+# Deploy the stack
 docker stack deploy -c stack.yml secret-manager
+
+# Check deployment status
 docker service ls
-docker service ps secret-manager_secret-manager
+docker service ps secret-manager_api
 ```
 
 ### 6. **Test the Service**
 
+Wait for ~30 seconds, then:
+
 ```bash
+# Access API documentation
 curl http://localhost:8000/docs
 ```
 
