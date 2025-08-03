@@ -536,15 +536,7 @@ docker exec -it $(docker ps -q -f name=secret-manager) bash
 7. **Push to branch**: `git push origin feature/amazing-feature`
 8. **Open a Pull Request**: Describe your changes
 
-### Code Style
-- Follow PEP 8 for Python code
-- Use type hints where possible
-- Add docstrings for public functions
-- Keep functions focused and testable
 
-## 📝 License
-
-[Specify your license here - e.g., MIT, Apache 2.0]
 
 ## ⚠️ Security Considerations
 
