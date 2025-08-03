@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtualenv
+venv/
+.venv/
+
+# Env & secrets
+# ignore real secrets
+.env
+# but DO track the template
+!.env.example
+*.key
+*.pem
+
+# IDE 
+.idea/
+.vscode/
+
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+
+

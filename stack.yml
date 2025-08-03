@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  api:
+    image: nanqin1994/secret-manager:1.0.0
+    environment:
+      MASTER_KEY: ${MASTER_KEY:-}
+      MONGO_URI: mongodb://mongodb:27017/vault
+      AUDIT_ENABLED: ${AUDIT_ENABLED:-true}
+      AUDIT_TTL_DAYS: ${AUDIT_TTL_DAYS:-0}
+    ports:
+      - "8000:8000" 
+    networks:
+      - vault_net
+    # healthcheck:
+    #   test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/docs')"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    command: ["--bind_ip_all"]
+    environment:
+      MONGO_INITDB_DATABASE: vault
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - vault_net
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      
+
+# Network configuration 
+networks:
+  vault_net:
+    driver: overlay
+   
+
+# Volume configuration 
+volumes:
+  mongodb_data:
