@@ -7,15 +7,21 @@ from .audit import init_audit, ensure_indexes, write_audit
 import base64, binascii
 from pymongo import MongoClient
 from .config import MONGO_URI
+import time
 
 
 @asynccontextmanager 
 async def lifespan(app: FastAPI):
     client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
-    try:
-        client.admin.command("ping")
-    except Exception as e:
-        raise RuntimeError(f"Failed to connect to MongoDB: {e}") from e
+    for i in range(10):
+        try:
+            client.admin.command("ping")
+            break
+        except Exception:
+            print("Waiting for Mongo...")
+            time.sleep(2)
+    else:
+        raise RuntimeError("Mongo not reachable after 10 attempts.")
     
     db = client["vault"]
     init_db(db["secrets"])
