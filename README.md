@@ -198,6 +198,24 @@ Uses a MongoDB TTL index on `timestamp`.
 
 ---
 
+## 🔍 Inspecting Stored Secrets (for Admin Use)
+
+Secrets are encrypted using AES-256-GCM and stored securely in MongoDB. To inspect the stored ciphertext (not the plaintext), you can query the `secrets` collection inside the `vault` database.
+
+```bash
+docker exec -it $(docker ps -qf name=secret-manager_mongodb) mongosh vault
+```
+
+```javascript
+db.secrets.find().sort({ ts: -1 }).limit(5).pretty()
+```
+
+Each document includes:
+- `_id`: UUID-based secret ID
+- `data`: Encrypted secret (base64-encoded AES-GCM ciphertext)
+- `ts`: Timestamp of storage
+
+
 ## 🔒 Security Features
 
 - Encrypted secrets (never stored in plaintext)  
